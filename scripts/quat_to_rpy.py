@@ -13,7 +13,7 @@ def listener():
 
     rospy.init_node('quat_to_rpy', anonymous=True)
 
-    rospy.Subscriber("/imu/data", Imu, callback)
+    rospy.Subscriber("imu/data_raw", Imu, callback)
                       
     # spin() simply keeps python from exiting until this node is stopped
     rospy.spin()
