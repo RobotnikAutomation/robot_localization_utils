@@ -37,7 +37,7 @@ def listener():
 
     rospy.init_node('test', anonymous=True)
 
-    rospy.Subscriber("/mavros/imu/mag", MagneticField, callback)
+    rospy.Subscriber("mavros/imu/mag", MagneticField, callback)
                       
     # spin() simply keeps python from exiting until this node is stopped
     rospy.spin()
