@@ -108,9 +108,23 @@ bool LocalizationUtils::calGyroCallback(std_srvs::Trigger::Request &req, std_srv
   req_mavros.param6=0;    
   req_mavros.param7=0;	
 
-  bool success_odom=mavcmd_client_.call(req_mavros,resp_mavros);
+  bool success_client_call=mavcmd_client_.call(req_mavros,resp_mavros);
+  if (success_client_call == false)
+  {
+     resp.message = "Mavros call was unsuccesful. Probably service (name: " + mavcmd_client_.getService() + " is not available.";
+     resp.success = false;
+     return true; 
+  }
 
-  resp.success=resp_mavros.success;
+  if (resp_mavros.success == false)
+  {
+     resp.message = "Mavros call was succesful, but calibration was not. Probably a problem with IMU";
+     resp.success = false;
+     return true;
+  }
+  resp.success=true;
+  resp.message = "Calibrating IMU GYRO!";
+  
   //resp_mavros.result is the raw result returned by COMMAND_ACK
   //TODO save resp_mavros.result in resp.message (conversion from unsigned string to int)
   
@@ -132,9 +146,22 @@ bool LocalizationUtils::calAccCallback(std_srvs::Trigger::Request &req, std_srvs
   req_mavros.param6=0;    
   req_mavros.param7=0;	
 
-  bool success_odom=mavcmd_client_.call(req_mavros,resp_mavros);
+  bool success_client_call=mavcmd_client_.call(req_mavros,resp_mavros);
+  if (success_client_call == false)
+  {
+     resp.message = "Mavros call was unsuccesful. Probably service (name: " + mavcmd_client_.getService() + " is not available.";
+     resp.success = false;
+     return true; 
+  }
 
-  resp.success=resp_mavros.success;
+  if (resp_mavros.success == false)
+  {
+     resp.message = "Mavros call was succesful, but calibration was not. Probably a problem with IMU";
+     resp.success = false;
+     return true;
+  }
+  resp.success=true;
+  resp.message = "Calibrating IMU ACCEL!";
   return true;
 }
 
@@ -153,9 +180,22 @@ bool LocalizationUtils::calMagCallback(std_srvs::Trigger::Request &req, std_srvs
   req_mavros.param6=0;    
   req_mavros.param7=0;	
 
-  bool success_odom=mavcmd_client_.call(req_mavros,resp_mavros);
+  bool success_client_call=mavcmd_client_.call(req_mavros,resp_mavros);
+  if (success_client_call == false)
+  {
+     resp.message = "Mavros call was unsuccesful. Probably service (name: " + mavcmd_client_.getService() + " is not available.";
+     resp.success = false;
+     return true; 
+  }
 
-  resp.success=resp_mavros.success; 
+  if (resp_mavros.success == false)
+  {
+     resp.message = "Mavros call was succesful, but calibration was not. Probably a problem with IMU";
+     resp.success = false;
+     return true;
+  }
+  resp.success=true;
+  resp.message = "Calibrating IMU MAG!";
   return true;
 }
 
@@ -174,9 +214,23 @@ bool LocalizationUtils::calOffCallback(std_srvs::Trigger::Request &req, std_srvs
   req_mavros.param6=0;    
   req_mavros.param7=0;	
 
-  bool success_odom=mavcmd_client_.call(req_mavros,resp_mavros);
+  bool success_client_call=mavcmd_client_.call(req_mavros,resp_mavros);
+  if (success_client_call == false)
+  {
+     resp.message = "Mavros call was unsuccesful. Probably service (name: " + mavcmd_client_.getService() + " is not available.";
+     resp.success = false;
+     return true; 
+  }
 
-  resp.success=resp_mavros.success; 
+  if (resp_mavros.success == false)
+  {
+     resp.message = "Mavros call was succesful, but calibration was not. Probably a problem with IMU";
+     resp.success = false;
+     return true;
+  }
+  resp.success=true;
+  resp.message = "Calibrating IMU LEVEL HORIZON!";
+
   return true;
 }
 
@@ -231,11 +285,11 @@ bool LocalizationUtils::resetOdomCallback(robotnik_msgs::set_odometry::Request &
 
   req_odom=req;
   req_rl.pose=msg;
-  bool success_odom=set_odometry_.call(req_odom,resp_odom);
+  bool success_client_call=set_odometry_.call(req_odom,resp_odom);
   bool success_rl=set_pose_.call(req_rl,resp_rl);
 
   //TODO: sometimes the service needs to be called twice to reset the ekf_localization_node output
-  resp.ret=(success_odom && success_rl);
+  resp.ret=(success_client_call && success_rl);
   
   return true;
 }
