@@ -45,6 +45,7 @@
   <run_depend>robotnik_msgs</run_depend>
   <run_depend>mavros_msgs</run_depend>
   <run_depend>mavros</run_depend>
+  <run_depend>imu_complementary_filter</run_depend>
 
   <test_depend>rostest</test_depend>
   <test_depend>rosbag</test_depend>
