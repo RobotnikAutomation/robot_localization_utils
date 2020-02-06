@@ -8,13 +8,13 @@ import math
 def callback(data):
     r,p,y = tf.transformations.euler_from_quaternion([data.orientation.x, data.orientation.y, data.orientation.z, data.orientation.w])
     rospy.loginfo("rpy: %.3lf(%.3lf), %.3lf(%.3lf), %.3lf(%.3lf)", r, math.degrees(r), p, math.degrees(p), y, math.degrees(y))
-        
+
 def listener():
 
     rospy.init_node('quat_to_rpy', anonymous=True)
 
-    rospy.Subscriber("imu/data_raw", Imu, callback)
-                      
+    rospy.Subscriber("imu/data", Imu, callback)
+
     # spin() simply keeps python from exiting until this node is stopped
     rospy.spin()
 
